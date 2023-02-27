@@ -15,9 +15,9 @@ def basic_translate(Tx, Ty):
         Tx : horizontal displacement
         Ty : vertical displacement
     """
-    return ([1,  0,  0],
-            [0,  1,  0],
-            [Tx, Ty, 1])
+    return np.array([[1,  0,  0],
+                     [0,  1,  0],
+                     [Tx, Ty, 1]])
 
 def basic_scale(Sx, Sy):
     """
@@ -28,9 +28,9 @@ def basic_scale(Sx, Sy):
     Assumes the center of the scale is at the origin of
     the coordinate system (0, 0).
     """
-    return ([Sx, 0,  0],
-            [0,  Sy, 0],
-            [0,  0,  1])
+    return np.array([[Sx, 0,  0],
+                     [0,  Sy, 0],
+                     [0,  0,  1]])
 
 def basic_rotate(angle):
     """
@@ -44,9 +44,9 @@ def basic_rotate(angle):
     cos0 = math.cos(theta)
     sin0 = math.sin(theta)
 
-    return ([cos0, -sin0,  0],
-            [sin0,  cos0,  0],
-            [0,     0,     1])
+    return np.array([[cos0, -sin0,  0],
+                     [sin0,  cos0,  0],
+                     [0,     0,     1]])
 
 def scale(Sx, Sy, Cx, Cy):
     """
