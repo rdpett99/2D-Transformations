@@ -61,3 +61,11 @@ def draw_line(x0, y0, x1, y1, color=False):
                 x = (y - y_intercept) / slope
                 x = math.trunc(x)
                 image.putpixel((x, y), (r, g, b))
+    
+def reset_image():
+    """
+    Resets the current image.
+    """
+    for x in range(500):
+        for y in range(500):
+            image.putpixel((x, y), (0, 0, 0))
