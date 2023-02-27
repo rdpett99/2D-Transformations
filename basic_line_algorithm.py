@@ -13,11 +13,17 @@ from PIL import Image
 # Creates an empty black image
 image = Image.new(mode = "RGB", size = (500, 500), color = (0,0,0))
 
-def draw_line(x0, y0, x1, y1):
+def draw_line(x0, y0, x1, y1, color=False):
     """
     This function draws a line starting at point (x0, y0) and ending at point 
     (x1, y1) in a standard coordinate system. 
     """
+
+    # RGB values
+    if color:
+        r, g, b = 255, 255, 255
+    else:
+        r, g, b = 255, 0, 0
 
     # If x0 == x1 : the line is vertical
     if x0 == x1:
@@ -25,7 +31,7 @@ def draw_line(x0, y0, x1, y1):
 
         # Critical loop
         for y_coord in range(abs(y1 - y0)):
-            image.putpixel((x0, y_min + y_coord), (255, 0, 0))
+            image.putpixel((x0, y_min + y_coord), (r, g, b))
     
     # Else, the line is not vertical
     else:
@@ -43,7 +49,7 @@ def draw_line(x0, y0, x1, y1):
                 x = x_min + x_coord
                 y = (slope * x) + y_intercept
                 y = math.trunc(y)
-                image.putpixel((x, y), (255, 0, 0))
+                image.putpixel((x, y), (r, g, b))
 
         # Check if |x1 - x0| < |y1 - y0|
         elif (abs(x1 - x0) < abs(y1 - y0)):
@@ -54,4 +60,4 @@ def draw_line(x0, y0, x1, y1):
                 y = y_min + y_coord
                 x = (y - y_intercept) / slope
                 x = math.trunc(x)
-                image.putpixel((x, y), (255, 0, 0))
+                image.putpixel((x, y), (r, g, b))
