@@ -6,7 +6,6 @@ assist with line drawing.
 
 # Standard Libraries
 import math
-from random import randint
 
 # Image module from the Python Imaging Library
 from PIL import Image
@@ -20,18 +19,13 @@ def draw_line(x0, y0, x1, y1):
     (x1, y1) in a standard coordinate system. 
     """
 
-    # Assigns random RGB values to differenciate between different drawn lines.
-    r = randint(0,255)
-    g = randint(0,255)
-    b = randint(0,255)
-
     # If x0 == x1 : the line is vertical
     if x0 == x1:
         y_min = min(y0, y1)
 
         # Critical loop
         for y_coord in range(abs(y1 - y0)):
-            image.putpixel((x0, y_min + y_coord), (r, g, b))
+            image.putpixel((x0, y_min + y_coord), (255, 0, 0))
     
     # Else, the line is not vertical
     else:
@@ -49,7 +43,7 @@ def draw_line(x0, y0, x1, y1):
                 x = x_min + x_coord
                 y = (slope * x) + y_intercept
                 y = math.trunc(y)
-                image.putpixel((x, y), (r, g, b))
+                image.putpixel((x, y), (255, 0, 0))
 
         # Check if |x1 - x0| < |y1 - y0|
         elif (abs(x1 - x0) < abs(y1 - y0)):
@@ -60,4 +54,4 @@ def draw_line(x0, y0, x1, y1):
                 y = y_min + y_coord
                 x = (y - y_intercept) / slope
                 x = math.trunc(x)
-                image.putpixel((x, y), (r, g, b))
+                image.putpixel((x, y), (255, 0, 0))
