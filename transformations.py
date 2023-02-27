@@ -88,7 +88,7 @@ def rotate(angle, Cx, Cy):
     another translation matrix moving object back to its
     original coordinates.
 
-          (1)                  (2)             (3)
+          (1)                (2)               (3)
 
     [1,    0,  0]     [cos0, -sin0, 0]     [1,  0,  0]
     [0,    1,  0]  X  [sin0,  cos0, 0]  X  [0,  1,  0]
