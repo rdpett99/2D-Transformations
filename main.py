@@ -116,7 +116,7 @@ def apply_line_tf(x0, y0, x1, y1):
             
     # Basic Rotation
     elif answer == 3:
-        angle = int(input('\nHow many degrees clockwise do you wish to rotate the shape? '))
+        angle = int(input('\nHow many degrees clockwise do you wish to rotate the line? '))
         Cx, Cy = 0, 0
         matrix = tf.basic_rotate(angle)
         prompt = '\nWould you like to perform a basic rotation (around the origin)\n'
