@@ -46,10 +46,6 @@ class Shape:
         elif self.shape_name == 'triangle':
             x = int(sum([v[0] for v in self.vertices]) / 3)
             y = int((sum([v[1] for v in self.vertices]) - self.get_max_y()) / 2)
-        if x < 0:
-            x += 500
-        if y < 0:
-            y += 500
         return (x, y)
 
     def get_max_y(self):
