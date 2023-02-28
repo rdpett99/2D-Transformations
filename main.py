@@ -47,7 +47,7 @@ def prompt_user():
 
     *** NOTE: NEED TO UPDATE FOR LINE TRANSFORMATIONS ***
     """
-    prompt = 'Would you like to draw a singular line or a shape?\n'
+    prompt = '\nWould you like to draw a singular line or a shape?\n'
     prompt += 'Type 1 for drawing your own line, or 2 for a pre-drawn shape: '
     answer = int(input(prompt))
     if answer == 1:
@@ -57,7 +57,7 @@ def prompt_user():
         y1 = int(input('Enter coordinate for y1: '))
         basic.draw_line(x0, y0, x1, y1)
     elif answer == 2:
-        prompt = 'What shape would you like to draw?\n'
+        prompt = '\nWhat shape would you like to draw?\n'
         prompt += 'Type 1 for Square, or 2 for Triangle: '
         answer = int(input(prompt))
         if answer == 1:
@@ -78,56 +78,85 @@ def apply_tf(shape):
     which transformation the user wishes to perform. The function
     then calculates the new vertices, draws the new shape onto the
     screen, and updates the shape's vertices in memory.
-
-    *** NOTE: NEED TO UPDATE FOR SQUARE TRANSFORMSTIONS!! ***
     """
     
-    # Placeholder
+    # Placeholder for answer
     answer = 0
     while answer != 4:
         vertices = shape.get_vertices()
-        prompt = 'Which transformation would you like to perform?\n'
+        prompt = '\nWhich transformation would you like to perform?\n'
         prompt += 'Type 1 for Translate, 2 for Scale, 3 for Rotate, or 4 to Quit: '
         answer = int(input(prompt))
 
-        # Placeholder
+        # Placeholder for final matrix
         matrix = tf.basic_translate(0, 0)
+
+        # Translation
+        if answer == 1:
+            Tx = int(input('\nEnter x-displacement: '))
+            Ty = int(input('Enter y-displacement: '))
+            matrix = tf.basic_translate(Tx, Ty)
+
+        # Basic Scale
+        elif answer == 2:
+            Sx = float(input('\nEnter x scaling factor: '))
+            Sy = float(input('Enter y scaling factor: '))
+            Cx, Cy = 0, 0
+            matrix = tf.basic_scale(Sx, Sy)
+            prompt = '\nWould you like to perform a basic scale (centered at the origin)\n'
+            prompt += 'or a general scale (around specified point)?\n'
+            prompt += 'Type 1 for basic scale, or 2 for general scale: '
+            choice = int(input(prompt))
+
+            # General Scale
+            if choice == 2:
+                print(f'\nNOTE: Center of {shape.shape_name} is {shape.get_center()}\n')
+                Cx = int(input('Enter x-coordinate for center of scale: '))
+                Cy = int(input('Enter y-coordinate for center of scale: '))
+                matrix = tf.scale(Sx, Sy, Cx, Cy)
+            
+        # Basic Rotation
+        elif answer == 3:
+            angle = int(input('\nHow many degrees clockwise do you wish to rotate the shape? '))
+            Cx, Cy = 0, 0
+            matrix = tf.basic_rotate(angle)
+            prompt = '\nWould you like to perform a basic rotation (around the origin)\n'
+            prompt += 'or a general rotation (around specified point)?\n'
+            prompt += 'Type 1 for basic rotation, or 2 for general rotation: '
+            choice = int(input(prompt))
+
+            # General Rotation
+            if choice == 2:
+                print(f'\nNOTE: Center of {shape.shape_name} is {shape.get_center()}\n')
+                Cx = int(input('Enter x-coordinate for center of rotation: '))
+                Cy = int(input('Enter y-coordinate for center of rotation: '))
+                matrix = tf.rotate(angle, Cx, Cy)
+            
+        # Quit
+        elif answer == 4:
+            break
+
         if shape.shape_name == 'square':
-            pass
+            
+            # Performs matrix multiplication on each vertex
+            p1 = [vertices[0][0], vertices[0][1], 1] @ matrix
+            p2 = [vertices[1][0], vertices[1][1], 1] @ matrix
+            p3 = [vertices[2][0], vertices[2][1], 1] @ matrix
+            p4 = [vertices[3][0], vertices[3][1], 1] @ matrix
+
+            reset()
+
+            # Draws new image based on new vertices
+            basic.draw_line(int(p1[0]), int(p1[1]), int(p2[0]), int(p2[1]))
+            basic.draw_line(int(p2[0]), int(p2[1]), int(p3[0]), int(p3[1]))
+            basic.draw_line(int(p3[0]), int(p3[1]), int(p4[0]), int(p4[1]))
+            basic.draw_line(int(p4[0]), int(p4[1]), int(p1[0]), int(p1[1]))
+
+            # Updates the shape's vertices
+            shape.update_vertices([int(p1[0]), int(p1[1]), int(p2[0]), int(p2[1]), int(p3[0]), int(p3[1]), 
+                                int(p4[0]), int(p4[1])])
+
         elif shape.shape_name == 'triangle':
-            if answer == 1:
-                Tx = int(input('Enter x-displacement: '))
-                Ty = int(input('Enter y-displacement: '))
-                matrix = tf.basic_translate(Tx, Ty)
-            elif answer == 2:
-                Sx = float(input('Enter x scaling factor: '))
-                Sy = float(input('Enter y scaling factor: '))
-                Cx, Cy = 0, 0
-                matrix = tf.basic_scale(Sx, Sy)
-                prompt = 'Would you like to perform a basic scale (centered at the origin)\n'
-                prompt += 'or a general scale (around specified point)?\n'
-                prompt += 'Type 1 for basic scale, or 2 for general scale: '
-                choice = int(input(prompt))
-                if choice == 2:
-                    print('NOTE: Center of triangle is (330, 125)!')
-                    Cx = int(input('Enter x-coordinate for center of scale: '))
-                    Cy = int(input('Enter y-coordinate for center of scale: '))
-                    matrix = tf.scale(Sx, Sy, Cx, Cy)
-            elif answer == 3:
-                angle = int(input('How many degrees clockwise do you wish to rotate the shape? '))
-                Cx, Cy = 0, 0
-                matrix = tf.basic_rotate(angle)
-                prompt = 'Would you like to perform a basic rotation (around the origin)\n'
-                prompt += 'or a general rotation (around specified point)?\n'
-                prompt += 'Type 1 for basic rotation, or 2 for general rotation: '
-                choice = int(input(prompt))
-                if choice == 2:
-                    print('NOTE: Center of triangle is (330, 125)!')
-                    Cx = int(input('Enter x-coordinate for center of rotation: '))
-                    Cy = int(input('Enter y-coordinate for center of rotation: '))
-                    matrix = tf.rotate(angle, Cx, Cy)
-            elif answer == 4:
-                break
 
             # Performs matrix multiplication on each vertex
             p1 = [vertices[0][0], vertices[0][1], 1] @ matrix
@@ -144,7 +173,7 @@ def apply_tf(shape):
             # Updates the shape's vertices
             shape.update_vertices([int(p1[0]), int(p1[1]), int(p2[0]), int(p2[1]), int(p3[0]), int(p3[1])])
 
-            basic.image.show()
+        basic.image.show()
 
 
 if __name__ == '__main__':
