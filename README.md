@@ -5,4 +5,4 @@ you must have a version of Python that is 3.6+ and have NumPy and
 Pillow installed.
 
     pip3 install --upgrade numpy
-    pip3 install --upgrade pillow
+    pip3 install --upgrade Pillow
